@@ -2,12 +2,38 @@
 
 $(document).ready(function() {
   console.log("Ok index.js");
-  $.get("./php/app.php",function (ciudades,status,xhr) {
-    console.log(ciudades);
-    console.log(status);
-    console.log(xhr.status);
+  $.get("./php/dropdown.php",function (retorno,status,xhr) {
+    console.log(retorno);
     if (xhr.status == 200) {
-      console.log(xhr);
+      console.log('retorno de php: '+retorno);
+      posicion = retorno.indexOf("]") + 1;
+      ciudades = retorno.substring(0,posicion);
+      tipo = retorno.substring(posicion,retorno.length);
+      console.log(ciudades);
+      console.log(tipo);
+      ret_1 = JSON.parse(ciudades);
+      console.log(''+ret_1);
+      for (var i = 0; i < ret_1.length; i++) {
+        console.log(ret_1[i]);
+        var opt_ciudad = document.createElement("option");
+        opt_ciudad .value = ret_1[i];
+        opt_ciudad. innerHTML = ret_1[i];
+        selectCiudad.appendChild(opt_ciudad);
+      };
+
+      ret_2 = JSON.parse(tipo);
+      console.log(''+ret_2);
+      for (var i = 0; i < ret_2.length; i++) {
+        console.log(ret_2[i]);
+        var opt_tipo = document.createElement("option");
+        opt_tipo .value = ret_2[i];
+        opt_tipo. innerHTML = ret_2[i];
+        selectTipo.appendChild(opt_tipo);
+      };
+
+      /*console.log(xhr);
+
+      foreach
       var opt_ciudad = document.createElement("option");
       opt_ciudad .value = "Quito";
       opt_ciudad. innerHTML = "Quito";
@@ -15,7 +41,7 @@ $(document).ready(function() {
       opt_ciudad1 .value = "Guyaquil";
       opt_ciudad1. innerHTML = " Guyaquil ";
       selectCiudad.appendChild(opt_ciudad);
-      selectCiudad.appendChild(opt_ciudad1);
+      selectCiudad.appendChild(opt_ciudad1);*/
       $("select").material_select();
 
 
