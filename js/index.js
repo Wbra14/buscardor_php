@@ -2,6 +2,20 @@
 
 $(document).ready(function() {
   console.log("Ok index.js");
+  var opt_ciudad = document.createElement("option");
+  opt_ciudad .value = "Quito";
+  opt_ciudad. innerHTML = "Quito";
+  var opt_ciudad1 = document.createElement("option");
+  opt_ciudad1 .value = "Guyaquil";
+  opt_ciudad1. innerHTML = " Guyaquil ";
+
+  selectCiudad.appendChild(opt_ciudad);
+  selectCiudad.appendChild(opt_ciudad1);
+
+
+
+
+  $("select").material_select();
   // Utilizando AJAX
   $("#mostrarTodos").click(function functionName() {
     $.get("data-1.json",function (datos,status,xhr) {
