@@ -22,9 +22,10 @@
     };
   };
 
-echo json_encode($ciudades);
-echo json_encode($tipos);
+  $retorno["ciudades"] = $ciudades;
+  $retorno["tipos"] = $tipos;
 
+  echo json_encode($retorno);
 
 
  ?>
