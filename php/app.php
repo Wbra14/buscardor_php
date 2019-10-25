@@ -21,19 +21,9 @@
       $ll_i++;
     };
   };
-  
+
   var_export ($ciudades);
   var_export ($tipos);
-
-
-
-  /*var opt_ciudad = document.createElement("option");
-  opt_ciudad .value = "Quito";
-  opt_ciudad. innerHTML = "Quito";
-  selectCiudad.appendChild(opt_ciudad);*/
-
-  //echo "$ciudad";
-
 
 
 

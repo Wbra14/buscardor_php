@@ -2,6 +2,7 @@
 
 $(document).ready(function() {
   //console.log("Ok index.js");
+  // Inicializa los Drop Down
   $.get("./php/dropdown.php",function (retorno,status,xhr) {
     //console.log(retorno);
     if (xhr.status == 200) {
@@ -69,7 +70,6 @@ $(document).ready(function() {
       var ldb_pinicial = precio.substring(0,posicion);
       var ldb_pfinal = precio.substring(posicion + 1,precio.length);
 
-      console.log(ls_ciudad+' '+ls_tipo+' precio: '+precio);
 
       $.ajax({
         url:"php/buscarDatos.php",
@@ -82,10 +82,17 @@ $(document).ready(function() {
         beforeSend:function() {
           console.log("Enviando información...");
         } ,
-        success: function (ls_resultado,estado,xhr) {
-          console.log(estado); // utizariamos en caso de validacion
-          console.log(xhr.status);
-          
+        success: function (fil_retorno,estado,xhr) {
+          var fil_dato;
+          if (xhr.status == 200) {
+
+            fil_dato = JSON.parse(fil_retorno);
+            console.log(fil_dato);
+            ins_dato(fil_dato);
+
+          }
+
+
         },
         error: function () {
           console.log('error');
@@ -152,6 +159,50 @@ function playVideoOnScroll(){
       video.pause();
     }, 10)
 }
-
+// Ejecuta
 inicializarSlider();
 playVideoOnScroll();
+
+// Funciones
+function ins_dato(filtro) {
+  $.get("data-1.json",function (datos,status,xhr) {
+    switch (xhr.status) {
+      case 200:
+        var tabla = $("#tabdatos");
+        var cuentaTr = $('#tabdatos >tbody >tr').length - 1;
+        if (cuentaTr == 0) {
+          //console.log("empezo");
+
+          for (var i = 0; i < filtro.length; i++) {
+            console.log(filtro[i]);
+
+            datos.forEach(function (valor,indice,array) {
+              if (filtro[i] == valor.Id) {
+                console.log("Insertar");
+                $(tabla).append("<tr> <td> <p> <img src= 'img/home.jpg' width='400' height='300' align='middle'></p></td>"+
+                 "<td><strong> <p> Dirección: </strong>" + valor.Direccion + "<br>"+
+                 "<strong>Ciudad: </strong>" + valor.Ciudad + "<br>"+
+                 "<strong>Teléfono: </strong>" + valor.Telefono + "<br>"+
+                 "<strong>Código postal: </strong>" + valor.Codigo_Postal + "<br>"+
+                 "<strong>Precio: </strong>" + valor.Precio + "<br>"+
+                 "<strong>Tipo: </strong>" + valor.Tipo +
+                 "</p><br> </td> </tr>");
+              }
+
+               });
+          }
+        } else {
+          console.log("existen datos no puedo insertar");
+        }
+        break;
+      case 404:
+        console.log("Error");
+        break;
+      default:
+        console.log("Error");
+        break;
+      }
+    });
+
+
+}
