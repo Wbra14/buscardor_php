@@ -21,11 +21,7 @@
       $ll_i++;
     };
   };
-
   $retorno["ciudades"] = $ciudades;
   $retorno["tipos"] = $tipos;
-
   echo json_encode($retorno);
-
-
  ?>

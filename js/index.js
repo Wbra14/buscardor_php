@@ -6,6 +6,7 @@ $(document).ready(function() {
     //console.log(retorno);
     if (xhr.status == 200) {
       ar_retorno = JSON.parse(retorno);
+      // Ciudades
       ar_ciudades = ar_retorno.ciudades;
       for (var i = 0; i < ar_ciudades.length; i++) {
         var opt_ciudad = document.createElement("option");
@@ -13,7 +14,7 @@ $(document).ready(function() {
         opt_ciudad. innerHTML = ar_ciudades[i];
         selectCiudad.appendChild(opt_ciudad);
       };
-
+      // Tipos
       ar_tipos = ar_retorno.tipos;
       for (var i = 0; i < ar_tipos.length; i++) {
         var opt_tipo = document.createElement("option");
@@ -25,17 +26,13 @@ $(document).ready(function() {
     }
   });
 
-
-  // Utilizando AJAX
+  // Utilizando AJAX Boton mostrar todos
   $("#mostrarTodos").click(function functionName() {
     $.get("data-1.json",function (datos,status,xhr) {
       switch (xhr.status) {
         case 200:
-          //console.log("recuperacion exitosa");
           var tabla = $("#tabdatos");
           var cuentaTr = $('#tabdatos >tbody >tr').length - 1;
-          //console.log(cuentaTr);
-          //console.log(datos);
           if (cuentaTr == 0) {
             //console.log("empezo");
             datos.forEach(function (valor,indice,array) {
@@ -56,11 +53,54 @@ $(document).ready(function() {
         default:
           console.log("Error");
           break;
-      }
-    });
+        }
+      });
     });
 
-});
+    // Utilizando AJAX mostrar con filtro
+    $("#submitButton").click(function functionName() {
+      event.preventDefault();
+      console.log("ok boton buscar");
+      event.preventDefault();
+      var ls_ciudad = $("#selectCiudad").val();
+      var ls_tipo = $("#selectTipo").val();
+      var precio = $("#rangoPrecio").val();
+      posicion = precio.indexOf(";");
+      var ldb_pinicial = precio.substring(0,posicion);
+      var ldb_pfinal = precio.substring(posicion + 1,precio.length);
+
+      console.log(ls_ciudad+' '+ls_tipo+' precio: '+precio);
+
+      $.ajax({
+        url:"php/buscarDatos.php",
+        type:'POST',
+        data:{ciudad: ls_ciudad,
+              tipo: ls_tipo,
+              p_inicial: ldb_pinicial,
+              p_final:ldb_pfinal
+            },
+        beforeSend:function() {
+          console.log("Enviando información...");
+        } ,
+        success: function (ls_resultado,estado,xhr) {
+          console.log(estado); // utizariamos en caso de validacion
+          console.log(xhr.status);
+          
+        },
+        error: function () {
+          console.log('error');
+        }
+      }).done(function(data) {
+        console.log("Correcto");
+      }).fail(function() {
+        console.log("Error");
+      });
+
+    });
+
+
+
+});// fin document
 
 
 /*
