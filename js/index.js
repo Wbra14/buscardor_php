@@ -46,6 +46,19 @@ $(document).ready(function() {
                    "<strong>Tipo: </strong>" + valor.Tipo +
                    "</p><br> </td> </tr>");
             });
+          } else {
+            $("#tabdatos tbody tr").remove();
+            datos.forEach(function (valor,indice,array) {
+              $(tabla).append("<tr> <td> <p> <img src= 'img/home.jpg' width='400' height='300' align='middle'></p></td>"+
+               "<td><strong> <p> Dirección: </strong>" + valor.Direccion + "<br>"+
+                   "<strong>Ciudad: </strong>" + valor.Ciudad + "<br>"+
+                   "<strong>Teléfono: </strong>" + valor.Telefono + "<br>"+
+                   "<strong>Código postal: </strong>" + valor.Codigo_Postal + "<br>"+
+                   "<strong>Precio: </strong>" + valor.Precio + "<br>"+
+                   "<strong>Tipo: </strong>" + valor.Tipo +
+                   "</p><br> </td> </tr>");
+              });     
+
           }
           break;
         case 404:
