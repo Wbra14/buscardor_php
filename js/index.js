@@ -61,7 +61,7 @@ $(document).ready(function() {
     // Utilizando AJAX mostrar con filtro
     $("#submitButton").click(function functionName() {
       event.preventDefault();
-      console.log("ok boton buscar");
+      //console.log("ok boton buscar");
       event.preventDefault();
       var ls_ciudad = $("#selectCiudad").val();
       var ls_tipo = $("#selectTipo").val();
@@ -85,14 +85,13 @@ $(document).ready(function() {
         success: function (fil_retorno,estado,xhr) {
           var fil_dato;
           if (xhr.status == 200) {
-
             fil_dato = JSON.parse(fil_retorno);
-            console.log(fil_dato);
+            var cuentaTr = $('#tabdatos >tbody >tr').length - 1;
+            if ((cuentaTr > 0)) {
+              $("#tabdatos tbody tr").remove();
+            }
             ins_dato(fil_dato);
-
           }
-
-
         },
         error: function () {
           console.log('error');
@@ -102,10 +101,7 @@ $(document).ready(function() {
       }).fail(function() {
         console.log("Error");
       });
-
     });
-
-
 
 });// fin document
 
@@ -164,35 +160,25 @@ inicializarSlider();
 playVideoOnScroll();
 
 // Funciones
+// Insertar valores en la tabla
 function ins_dato(filtro) {
   $.get("data-1.json",function (datos,status,xhr) {
     switch (xhr.status) {
       case 200:
         var tabla = $("#tabdatos");
-        var cuentaTr = $('#tabdatos >tbody >tr').length - 1;
-        if (cuentaTr == 0) {
-          //console.log("empezo");
-
-          for (var i = 0; i < filtro.length; i++) {
-            console.log(filtro[i]);
-
+        for (var i = 0; i < filtro.length; i++) {
             datos.forEach(function (valor,indice,array) {
-              if (filtro[i] == valor.Id) {
-                console.log("Insertar");
-                $(tabla).append("<tr> <td> <p> <img src= 'img/home.jpg' width='400' height='300' align='middle'></p></td>"+
-                 "<td><strong> <p> Dirección: </strong>" + valor.Direccion + "<br>"+
-                 "<strong>Ciudad: </strong>" + valor.Ciudad + "<br>"+
-                 "<strong>Teléfono: </strong>" + valor.Telefono + "<br>"+
-                 "<strong>Código postal: </strong>" + valor.Codigo_Postal + "<br>"+
-                 "<strong>Precio: </strong>" + valor.Precio + "<br>"+
-                 "<strong>Tipo: </strong>" + valor.Tipo +
-                 "</p><br> </td> </tr>");
+            if (filtro[i] == valor.Id) {
+              $(tabla).append("<tr> <td> <p> <img src= 'img/home.jpg' width='400' height='300' align='middle'></p></td>"+
+               "<td><strong> <p> Dirección: </strong>" + valor.Direccion + "<br>"+
+               "<strong>Ciudad: </strong>" + valor.Ciudad + "<br>"+
+               "<strong>Teléfono: </strong>" + valor.Telefono + "<br>"+
+               "<strong>Código postal: </strong>" + valor.Codigo_Postal + "<br>"+
+               "<strong>Precio: </strong>" + valor.Precio + "<br>"+
+               "<strong>Tipo: </strong>" + valor.Tipo +
+               "</p><br> </td> </tr>");
               }
-
-               });
-          }
-        } else {
-          console.log("existen datos no puedo insertar");
+          });
         }
         break;
       case 404:

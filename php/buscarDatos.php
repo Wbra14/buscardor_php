@@ -7,20 +7,20 @@ if (isset($_POST['ciudad']) && isset($_POST['tipo']) && isset($_POST['p_inicial'
   $p_final = (double) $_POST['p_final'];
 
 
+
   $jsondata = file_get_contents('../data-1.json',true);
   $json = json_decode($jsondata,true);
 
   if ((ord($ciudad) == 0) && (ord($tipo) == 0)) {
     //$filtro = 1;
     $ll_i = 0;
-    
     foreach ($json as $key => $value) {
-      $precio = $json[$key]["Precio"];
-      $precio = borraprimero($precio);
-      $precio = str_replace(',', '', $precio);
-      $precio = (double) $precio;
+      $j_precio = $json[$key]["Precio"];
+      $j_precio = borraprimero($j_precio);
+      $j_precio = str_replace(',', '', $j_precio);
+      $j_precio = (double) $j_precio;
 
-      if ( ($p_inicial <= $precio) && ($precio  <= $p_final)  ) {
+      if ( ($p_inicial <= $j_precio) && ($j_precio  <= $p_final)  ) {
         $id = $json[$key]["Id"];
         $filtro[$ll_i] = $id;
         $ll_i++;
@@ -31,15 +31,58 @@ if (isset($_POST['ciudad']) && isset($_POST['tipo']) && isset($_POST['p_inicial'
 
   } elseif((ord($ciudad) > 0) && (ord($tipo) == 0)) {
     //$filtro = 2;
-    //echo $filtro.' <br>';
+    $ll_i = 0;
+    foreach ($json as $key => $value) {
+      $j_ciudad = $json[$key]["Ciudad"];
+      $j_precio = $json[$key]["Precio"];
+      $j_precio = borraprimero($j_precio);
+      $j_precio = str_replace(',', '', $j_precio);
+      $j_precio = (double) $j_precio;
+
+      if ( ($ciudad == $j_ciudad) && (($p_inicial <= $j_precio) && ($j_precio  <= $p_final)) ) {
+        $id = $json[$key]["Id"];
+        $filtro[$ll_i] = $id;
+        $ll_i++;
+
+      };
+    };
 
   } elseif((ord($ciudad) == 0) && (ord($tipo) > 0)) {
     //$filtro = 3;
-    //echo $filtro.' <br>';
+    $ll_i = 0;
+    foreach ($json as $key => $value) {
+      $j_tipo = $json[$key]["Tipo"];
+      $j_precio = $json[$key]["Precio"];
+      $j_precio = borraprimero($j_precio);
+      $j_precio = str_replace(',', '', $j_precio);
+      $j_precio = (double) $j_precio;
+
+      if ( ($tipo == $j_tipo) && (($p_inicial <= $j_precio) && ($j_precio  <= $p_final)) ) {
+        $id = $json[$key]["Id"];
+        $filtro[$ll_i] = $id;
+        $ll_i++;
+
+      };
+    };
 
   } elseif((ord($ciudad) > 0) && (ord($tipo) > 0)) {
     //$filtro = 4;
-    //echo $filtro.' <br>';
+    $ll_i = 0;
+    foreach ($json as $key => $value) {
+      $j_ciudad = $json[$key]["Ciudad"];
+      $j_tipo = $json[$key]["Tipo"];
+      $j_precio = $json[$key]["Precio"];
+      $j_precio = borraprimero($j_precio);
+      $j_precio = str_replace(',', '', $j_precio);
+      $j_precio = (double) $j_precio;
+
+      if ( ($ciudad == $j_ciudad) && ($tipo == $j_tipo) && (($p_inicial <= $j_precio) && ($j_precio  <= $p_final)) ) {
+        $id = $json[$key]["Id"];
+        $filtro[$ll_i] = $id;
+        $ll_i++;
+
+      };
+    };
 
   }
   };
